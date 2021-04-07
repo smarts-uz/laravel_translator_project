@@ -13,8 +13,8 @@ class LanguageController extends Controller
 {
     public function changeLanguage(Request $request)
     {
-    	$request->session()->put('locale', $request->locale);
-        $language = Language::where('code', $request->locale)->first();
+    	$request->session()->put('locale', $request->input("locale"));
+        $language = Language::where('code', $request->input("locale"))->first();
     	// flash(translate('Language changed to ').$language->name)->success();
     }
 
