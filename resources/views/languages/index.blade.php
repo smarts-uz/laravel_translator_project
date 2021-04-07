@@ -109,14 +109,14 @@
             else{
                 var status = 0;
             }
-            $.post('{{ route('languages.update_rtl_status') }}', {_token:'{{ csrf_token() }}', id:el.value, status:status}, function(data){
-                if(data == 1){
-                    location.reload();
-                }
-                else{
-                    AIZ.plugins.notify('danger', '{{ t('Something went wrong') }}');
-                }
-            });
+            {{--$.post('{{ route('languages.update_rtl_status') }}', {_token:'{{ csrf_token() }}', id:el.value, status:status}, function(data){--}}
+            {{--    if(data == 1){--}}
+            {{--        location.reload();--}}
+            {{--    }--}}
+            {{--    else{--}}
+            {{--        AIZ.plugins.notify('danger', '{{ t('Something went wrong') }}');--}}
+            {{--    }--}}
+            {{--});--}}
         }
     </script>
 @endsection
