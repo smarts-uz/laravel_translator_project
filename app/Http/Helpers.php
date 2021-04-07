@@ -1,6 +1,6 @@
 <?php
 
-use App\Translation;
+use App\Models\Translation;
 use Illuminate\Support\Facades\App;
 if (! function_exists('t')) {
     function t($key, $lang = null){
@@ -10,6 +10,7 @@ if (! function_exists('t')) {
         }
 
         $translation_def = Translation::where('lang', $lang??env('DEFAULT_LANGUAGE', 'en'))->where('lang_key', $key)->first();
+
         if($translation_def == null){
             $translation_def = new Translation;
             $translation_def->lang = env('DEFAULT_LANGUAGE', 'en');
@@ -19,9 +20,9 @@ if (! function_exists('t')) {
         }
 
         //Check for session lang
-        $translation_locale = Translation::where('lang_key', $key)->where('lang', $lang)->first();
-        if($translation_locale != null && $translation_locale->lang_value != null){
-            return  ($translation_locale->lang_value);
+        //$translation_locale = Translation::where('lang_key', $key)->where('lang', $lang)->first();
+        if($translation_def != null && $translation_def->lang_value != null){
+            return  ($translation_def->lang_value);
         }
         elseif($translation_def->lang_value != null){
             return ($translation_def->lang_value);

@@ -1,7 +1,5 @@
 <?php
 
-
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,17 +14,23 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('app');
 });
-Auth::routes();
-Route::post('/translations/key_value_store_translations', 'LanguageController@key_value_store_translations')->name('translations.key_value_store_translations');
+Route::get('/translations/{lang}', [App\Http\Controllers\TranslationController::class, 'edit']);
+Route::post('/translations/store', [App\Http\Controllers\TranslationController::class, 'store'])->name('translations.store');
+Route::get('/translations/delete/{id}', [App\Http\Controllers\TranslationController::class, 'destroy'])->name('translations.delete');
+
+//Route::get('/languages', function () {
+//    return view('languages');
+//});
 Route::post('/languages/update_rtl_status', 'App\Http\Controllers\LanguageController@update_rtl_status')->name('languages.update_rtl_status');
-Route::post('/languages/key_value_store', 'App\Http\Controllers\LanguageController@key_value_store')->name('languages.key_value_store');
+//Route::post('/languages/key_value_store', 'App\Http\Controllers\LanguageController@key_value_store')->name('languages.key_value_store');
 Route::get('lang/{locale}', function ($locale){
     Illuminate\Support\Facades\App::setLocale($locale);
     session()->put('locale', $locale);
     return redirect()->back();
 });
+
 Route::get('language', 'App\Http\Controllers\LanguageController@changeLanguage')->name('language.change');
 Route::get('/languages', 'App\Http\Controllers\LanguageController@index')->name('languages.index');
 Route::get('/languages/create', 'App\Http\Controllers\LanguageController@create')->name('languages.create');

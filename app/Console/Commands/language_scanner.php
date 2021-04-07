@@ -4,7 +4,8 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use Nette\Utils\Finder;
-use App\Translation;
+use App\Models\Translation;
+
 class language_scanner extends Command
 {
     /**
@@ -50,9 +51,9 @@ class language_scanner extends Command
                 echo 'Current file: '.$rel_path. "\xA";
                 $cur_arr=$matches[3];
                 $last = array_unique(array_merge ($last, $cur_arr));
-                // foreach($matches[3] as $match){
-                //     echo $match. "\xA";
-                // }
+                 foreach($matches[3] as $match){
+                     echo $match. "\xA";
+                 }
             }
 
         }
@@ -62,7 +63,8 @@ class language_scanner extends Command
             Translation::updateOrCreate([
                 'lang'=>'en',
                 'lang_key'=>$item,
-                'lang_value'=>$item
+                'lang_value'=>$item,
+//                'created_at'=>now()
             ]);
         }
         // print_r($last);

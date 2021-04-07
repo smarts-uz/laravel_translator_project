@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\App;
 use Session;
 use File;
 use App\Models\Language;
-use App\Translation;
+use App\Models\Translation;
 
 class LanguageController extends Controller
 {
@@ -28,7 +28,7 @@ class LanguageController extends Controller
     public function index(Request $request)
     {
         $languages = Language::paginate(10);
-        return view('languages.index', compact('languages'));
+        return view('languages', compact('languages'));
     }
 
     public function create(Request $request)
@@ -86,33 +86,13 @@ class LanguageController extends Controller
         }
     }
 
-    public function key_value_store(Request $request)
-    {
-        $language = Language::findOrFail($request->id);
-        foreach ($request->values as $key => $value) {
-            $translation_def = Translation::where('lang_key', $key)->where('lang', $language->code)->first();
-            if($translation_def == null){
-                $translation_def = new Translation;
-                $translation_def->lang = $language->code;
-                $translation_def->lang_key = $key;
-                $translation_def->lang_value = $value;
-                $translation_def->save();
-            }
-            else {
-                $translation_def->lang_value = $value;
-                $translation_def->save();
-            }
-        }
-        // flash(translate('Translations updated for ').$language->name)->success();
-        return back();
-               }
 
     public function update_rtl_status(Request $request)
     {
         $language = Language::findOrFail($request->id);
         $language->rtl = $request->status;
         if($language->save()){
-            flash(translate('RTL status updated successfully'))->success();
+//            flash(translate('RTL status updated successfully'))->success();
             return 1;
         }
         return 0;
@@ -128,6 +108,6 @@ class LanguageController extends Controller
             Language::destroy($id);
             // flash(translate('Language has been deleted successfully'))->success();
         }
-        return redirect()->route('languages.index');
+        return back();
     }
 }
